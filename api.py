@@ -4,8 +4,9 @@ import json  # format the result as a JSON string
 
 # Initialize the client with your API key
 client = currencyapicom.Client('cur_live_v0DKfMohFVghIulj5F1ev2hfbJWcrkEGjBVGkAyU')
-base_currency = 'ZAR'
 
+with open("base_currency.txt", "r") as file:
+    base_currency = file.read()  
 
 def change_base_currency(new_base):
     base_currency = new_base
@@ -43,9 +44,13 @@ def get_range_of_rates(start_date,end_date,accuracy):
         
 if __name__ == "__main__":
     function = sys.argv[1]
-    if function==1:
-        print("Get the latest exchange rates")
-    elif function ==2:
-        print("Get the exchange rates for an older date")
+    print(function)
+    if function=="1":
+        new_base_curr = sys.argv[2]
+        change_base_currency(new_base_curr)
+        with open("base_currency.txt", "w") as file:
+            file.write(new_base_curr)
+        print("The new base currency is",new_base_curr)
     else:
-        print("Get the exchange rates for a range of dates")
+        print("Something went wrong")
+
