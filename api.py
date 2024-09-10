@@ -1,3 +1,4 @@
+import sys
 import currencyapicom
 import json  # format the result as a JSON string
 
@@ -19,7 +20,7 @@ def get_latest_rates():
         print(f"An error occurred: {e}")
 
 #Date to retrieve historical rates from (format: 2021-12-31)
-def get_latest_rates(date):
+def get_historical_rates(date):
     try:
         result = client.historical(base_currency,date)
         with open("historical_data.txt", "w") as file:
@@ -41,4 +42,10 @@ def get_range_of_rates(start_date,end_date,accuracy):
         
         
 if __name__ == "__main__":
-    pass
+    function = sys.argv[1]
+    if function==1:
+        print("Get the latest exchange rates")
+    elif function ==2:
+        print("Get the exchange rates for an older date")
+    else:
+        print("Get the exchange rates for a range of dates")
