@@ -58,23 +58,40 @@ public class currencyConverter {
             // Wait for api.py to finish running and display relevant message
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Python script executed successfully.");
+                System.out.println("api.py executed successfully.");
             } else {
-                System.out.println("Python script execution failed with exit code: " + exitCode);
+                System.out.println("api.py execution failed with exit code: " + exitCode);
             }
-
+            if (function==2){
             // Read the data file
+            String code="";
+            String value="";
+            String date = "";
+            String time = "";
             File file = new File("latest_data.txt");
             if (file.exists()) {
+                System.out.println("File exists");
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    System.out.println("Data from file: "); 
+                    System.out.println("Latest data"); 
                     while ((line = reader.readLine()) != null) {
-                        //System.out.println(line);
+                        if (line.contains("last_updated_at")) {
+                            date = line.substring(line.indexOf(":")+3,line.indexOf("T"));
+                            time = line.substring(line.indexOf("T")+1,line.indexOf("Z"));
+                            System.out.println("This data was last updated on "+date+" at "+time);
+                        }
+                        if (line.contains("code"))
+                            code = line.substring(line.indexOf(":")+3,line.indexOf(",")-1);
+                        if (line.contains("value"))
+                            value = line.substring(line.indexOf(":")+2);
+                        if (!line.contains("meta") || !line.contains("data")  )
+                            if (line.contains("value")) 
+                                System.out.println(code+" : "+value);
                     }
                 }
             } else {
                 System.out.println("File not found!");
             }
+        }
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

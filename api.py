@@ -16,7 +16,7 @@ def get_latest_rates():
         result = client.latest(base_currency)
         with open("latest_data.txt", "w") as file:
             file.write(json.dumps(result, indent=4))
-        print("Data saved successfully to latest_data.txt.") 
+        print("Data successfully update in latest_data.txt.") 
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -50,7 +50,9 @@ if __name__ == "__main__":
         change_base_currency(new_base_curr)
         with open("base_currency.txt", "w") as file:
             file.write(new_base_curr)
-        print("The new base currency is",new_base_curr)
+        print("The new base currency is ",new_base_curr) 
+    elif function=="2":
+        get_latest_rates()
     else:
         print("Something went wrong")
 
