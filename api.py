@@ -23,7 +23,7 @@ def get_latest_rates():
 #Date to retrieve historical rates from (format: 2021-12-31)
 def get_historical_rates(date):
     try:
-        result = client.historical(base_currency,date)
+        result = client.historical(date,base_currency)
         with open("historical_data.txt", "w") as file:
             file.write(json.dumps(result, indent=4))
         print("Data saved successfully to historical_data.txt.") 
@@ -44,7 +44,6 @@ def get_range_of_rates(start_date,end_date,accuracy):
         
 if __name__ == "__main__":
     function = sys.argv[1]
-    print(function)
     if function=="1":
         new_base_curr = sys.argv[2]
         change_base_currency(new_base_curr)
@@ -53,6 +52,9 @@ if __name__ == "__main__":
         print("The new base currency is ",new_base_curr) 
     elif function=="2":
         get_latest_rates()
+    elif function=="3":
+        rate_for_specified_date = sys.agrv[2]
+        get_historical_rates(rate_for_specified_date)      
     else:
         print("Something went wrong")
 
